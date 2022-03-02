@@ -1,21 +1,41 @@
 import { useEffect, useState } from 'react';
-import { GenreResponseProps, MovieProps } from '../App';
 import { api } from '../services/api';
 import { MovieCard } from './MovieCard'
+import { GenreResponseProps } from './SideBar';
 
 type ContentProps = {
-  movies: MovieProps[],
   selectedGenreId: number,
 }
 
-export function Content({movies, selectedGenreId}: ContentProps) {
+type MovieProps = {
+  imdbID: string;
+  Title: string;
+  Poster: string;
+  Ratings: Array<{
+    Source: string;
+    Value: string;
+  }>;
+  Runtime: string;
+}
+
+export function Content({ selectedGenreId}: ContentProps) {
   const [selectedGenre, setSelectedGenre] = useState<GenreResponseProps>({} as GenreResponseProps);
+  const [movies, setMovies] = useState<MovieProps[]>([]);
+
 
   useEffect(() => {
     api.get<GenreResponseProps>(`genres/${selectedGenreId}`).then(response => {
       setSelectedGenre(response.data);
     })
   }, []);
+
+  useEffect(() => {
+    api.get<MovieProps[]>(`movies/?Genre_id=${selectedGenreId}`).then(response => {
+      setMovies(response.data);
+    });
+    
+  }, [selectedGenreId]);
+
 
   return (
     <div className="container">
