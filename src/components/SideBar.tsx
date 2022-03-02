@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { GenreResponseProps } from '../App';
 import { api } from '../services/api';
 import { Button } from './Button';
 
@@ -7,11 +8,6 @@ type SideBarProps = {
   onClickButton: (id: number)=> any, 
 };
 
-export type GenreResponseProps = {
-  id: number;
-  name: 'action' | 'comedy' | 'documentary' | 'drama' | 'horror' | 'family';
-  title: string;
-}
 
 export function SideBar({ selectedGenreId, onClickButton }: SideBarProps) {
   const [genres, setGenres] = useState<GenreResponseProps[]>([]);
