@@ -8,17 +8,14 @@ type SideBarProps = {
   onClickButton: (id: number)=> any, 
 };
 
-
 export function SideBar({ selectedGenreId, onClickButton }: SideBarProps) {
   const [genres, setGenres] = useState<GenreResponseProps[]>([]);
-
 
   useEffect(() => {
     api.get<GenreResponseProps[]>('genres').then(response => {
       setGenres(response.data);
     });
   }, []);
-
 
   return (
     <nav className="sidebar">
